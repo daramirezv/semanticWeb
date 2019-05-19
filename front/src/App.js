@@ -1,30 +1,57 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import Instancias from './components/Instancias';
+import Clases from './components/Clases';
+import Propiedades from './components/Propiedades';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      location: 'Home',
+    };
+
+    this.callbackNavbar = this.callbackNavbar.bind(this);
+  }
+
+  callbackNavbar(value) {
+    this.setState({
+      location: value
+    });
   }
 
   render() {
+
+  let pantalla;
+  if(this.state.location === 'Instancias'){
+    pantalla = <Instancias/>;
+  } else if(this.state.location === 'Clases'){
+    pantalla = <Clases/>;
+  } else if(this.state.location === 'Propiedades'){
+    pantalla = <Propiedades/>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <Navbar onChange={this.callbackNavbar}/>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <h2>{this.state.location}</h2>
+      <br/>
+      <br/>
+      <div className="container">
+
+
+        {pantalla}
+      </div>
+
     </div>
   )}
 }
