@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Instancias from './components/Instancias';
 import Clases from './components/Clases';
 import Propiedades from './components/Propiedades';
+import Viz from './components/viz'
 import InstanciaDetail from './components/InstanciaDetail';
 import ClaseDetail from './components/ClaseDetail';
 import PropiedadDetail from './components/PropiedadDetail';
@@ -67,6 +68,9 @@ class App extends Component {
     pantalla = <ClaseDetail onChange={this.handleInstanciaClick} clase={this.state.clase}/>;
   } else if(this.state.location === 'PropiedadDetail'){
     pantalla = <PropiedadDetail onChange={this.handleInstanciaClick} propiedad={this.state.propiedad}/>
+  }
+  else if(this.state.location === 'Viz'){
+    pantalla = <Viz/>
   }
 
   return (
