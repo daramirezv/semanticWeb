@@ -68,8 +68,7 @@ class App extends Component {
     pantalla = <ClaseDetail onChange={this.handleInstanciaClick} clase={this.state.clase}/>;
   } else if(this.state.location === 'PropiedadDetail'){
     pantalla = <PropiedadDetail onChange={this.handleInstanciaClick} propiedad={this.state.propiedad}/>
-  }
-  else if(this.state.location === 'Viz'){
+  } else if(this.state.location === 'Viz'){
     pantalla = <Viz/>
   }
 
