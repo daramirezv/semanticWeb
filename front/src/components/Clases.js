@@ -5,7 +5,7 @@ export default class Clases extends Component {
     super(props);
 
     this.state = {
-      clases: ['clase 1', 'clase 2', 'clase 3'],
+      clases: [],
       claseBuscada: '',
     };
 
@@ -26,13 +26,40 @@ export default class Clases extends Component {
     alert('Buscar ' + uriClase);
   }
 
+  componentDidMount() {
+
+    fetch('/query/clases', {
+      method: 'GET',
+
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+
+      let queryResult = json.results.bindings;
+
+      this.setState({
+        clases: queryResult,
+      })
+
+
+    })
+    .catch((error) => console.log(error));
+  }
+
   renderClases() {
-    return this.state.clases.map((clase, i) =>
+    console.log(this.state.clases)
+    if(this.state.clases.length !== 0){
+      return this.state.clases.map((obj, i) =>
       <tr>
         <th scope="row">{i}</th>
-        <td><a onClick={this.props.onChange.bind(this, clase)} href="#claseDetail">{clase}</a></td>
+        <td><a onClick={this.props.onChange.bind(this, obj.clase.value)} href="#claseDetail">{obj.clase.value}</a></td>
       </tr>
-    );
+      );
+    } else {
+      return;
+    }
+    
   }
 
   render() {
