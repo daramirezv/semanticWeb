@@ -7,9 +7,9 @@ class Viz extends Component {
     constructor(props){
         super(props);
         this.state = {
-            authorUri: "SOYUNAURI",
-            authorName : "Juan Da",
-            authorInstitution : "Universidad de Los Andes"
+            authorUri: "",
+            authorName : "",
+            authorInstitution : ""
         }
         this.changeAuthor = this.changeAuthor.bind(this);
     }
