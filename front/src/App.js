@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Instancias from './components/Instancias';
 import Clases from './components/Clases';
 import Propiedades from './components/Propiedades';
+import Viz from './components/viz'
 
 class App extends Component {
 
@@ -33,6 +34,9 @@ class App extends Component {
     pantalla = <Clases/>;
   } else if(this.state.location === 'Propiedades'){
     pantalla = <Propiedades/>;
+  }
+  else if(this.state.location === 'Viz'){
+    pantalla = <Viz/>
   }
 
   return (
