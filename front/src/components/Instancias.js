@@ -23,7 +23,8 @@ export default class Instancias extends Component {
     e.preventDefault();
     let uriEntidad = this.state.instanciaBuscada;
     console.log(uriEntidad);
-    alert('Buscar ' + uriEntidad);
+    this.props.onChange(uriEntidad);
+
   }
 
   renderInstancias() {
@@ -41,22 +42,17 @@ export default class Instancias extends Component {
         <div className="searchDiv">
           <form id="buscadorInstancias" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" id="inputBuscadorInstancias" placeholder="Buscar Instancia" onChange={this.handleSearchChange}/>
+              <input type="text" size="100" id="inputBuscadorInstancias" placeholder="Buscar Instancia" onChange={this.handleSearchChange}/>
               <button type="submit" className="btn btn-primary">Buscar</button>
             </div>
           </form>
         </div>
-        <table className="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Instancia</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderInstancias()}
-          </tbody>
-        </table>
+        <br/>
+        <br/>
+        <div className="alert alert-info">
+          <strong>Usa este prefijo!</strong> http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/
+        </div>
+        
       </div>
     )
   }

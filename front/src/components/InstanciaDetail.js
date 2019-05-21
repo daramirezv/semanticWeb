@@ -31,7 +31,9 @@ export default class InstanciaDetail extends Component {
 
 
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   renderInfoInstancia() {
