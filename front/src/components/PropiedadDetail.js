@@ -5,16 +5,39 @@ export default class PropiedadDetail extends Component {
     super(props);
 
     this.state = {
-      instancias: ['instancia 1', 'instancia2', 'instancia3'],
-      instanciaBuscada: '',
+      instancias: [],
     };
+  }
+
+  componentDidMount() {
+    
+    let encodedParam = encodeURIComponent(this.props.propiedad);
+    let url = '/query/instanciasPropiedad/' + encodedParam;
+    fetch(url, {
+      method: 'GET',
+
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+
+      let queryResult = json.results.bindings;
+
+      this.setState({
+        instancias: queryResult,
+      });
+      
+
+
+    })
+    .catch((error) => console.log(error));
   }
 
   renderInstancias() {
     return this.state.instancias.map((inst, i) =>
       <tr>
         <th scope="row">{i}</th>
-        <td><a onClick={this.props.onChange.bind(this, inst)} href="#instanciaDetail">{inst}</a></td>
+        <td align="left"><a onClick={this.props.onChange.bind(this, inst.sujeto.value)} href="#instanciaDetail">{inst.sujeto.value}</a></td>
       </tr>
     );
   }
@@ -30,7 +53,7 @@ export default class PropiedadDetail extends Component {
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Sujeto</th>
+              <th scope="col">Instancia Sujeto</th>
             </tr>
           </thead>
           <tbody>

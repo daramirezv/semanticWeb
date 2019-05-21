@@ -5,7 +5,8 @@ export default class Propiedades extends Component {
     super(props);
 
     this.state = {
-      propiedades: ['propiedad 1', 'propiedad 2', 'propiedad 3'],
+      propiedades: [],
+      propiedadBuscada: '',
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,22 +15,51 @@ export default class Propiedades extends Component {
 
   handleSearchChange(event) {
     this.setState({
-      instanciaBuscada :event.target.value,
+      propiedadBuscada :event.target.value,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    let uriEntidad = this.state.instanciaBuscada;
-    console.log(uriEntidad);
-    alert('Buscar ' + uriEntidad);
+    let uriPropiedad= this.state.propiedadBuscada;
+    console.log(uriPropiedad);
+    
+    let propiedadesDisponibles = this.state.propiedades.map((obj) => obj.propiedad.value);
+    console.log(propiedadesDisponibles);
+    if(propiedadesDisponibles.includes(uriPropiedad)){
+      this.props.onChange(uriPropiedad);
+    } else {
+      alert('No hay ninguna propiedad con este URI.');
+    }
+
+  }
+
+  componentDidMount() {
+
+    fetch('/query/propiedades', {
+      method: 'GET',
+
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+
+      let queryResult = json.results.bindings;
+
+      this.setState({
+        propiedades: queryResult,
+      })
+
+
+    })
+    .catch((error) => console.log(error));
   }
 
   renderPropiedades() {
-    return this.state.propiedades.map((propi, i) =>
+    return this.state.propiedades.map((obj, i) =>
       <tr>
         <th scope="row">{i}</th>
-        <td><a onClick={this.props.onChange.bind(this, propi)} href="#claseDetail">{propi}</a></td>
+        <td><a onClick={this.props.onChange.bind(this, obj.propiedad.value)} href="#claseDetail">{obj.propiedad.value}</a></td>
       </tr>
     );
   }
@@ -40,7 +70,7 @@ export default class Propiedades extends Component {
         <div className="searchDiv">
           <form id="buscadorPropiedades" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" id="inputBuscadorPropiedades" placeholder="Buscar Propiedad" onChange={this.handleSearchChange}/>
+              <input type="text" size="100" id="inputBuscadorPropiedades" placeholder="Buscar Propiedad" onChange={this.handleSearchChange}/>
               <button type="submit" className="btn btn-primary">Buscar</button>
             </div>
           </form>
