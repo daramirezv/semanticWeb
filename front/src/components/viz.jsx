@@ -7,23 +7,64 @@ class Viz extends Component {
     constructor(props){
         super(props);
         this.state = {
-            authorUri: "",
-            authorName : "",
-            authorInstitution : ""
+            coAuthorUri: "",
+            coAuthorName : "",
+            coAuthorInstitution : "",
+            citationAuthorUri: "",
+            citationAuthorName : "",
+            citationAuthorInstitution : "",
+            citationData: [],
+            coauthoryData: []
+            
         }
         this.changeAuthor = this.changeAuthor.bind(this);
+        this.changeAuthor2 = this.changeAuthor2.bind(this);
     }
 
     changeAuthor(pAuthorUri, pAuthorName, pAuthorInstitution){
         this.setState({
-            authorUri: pAuthorUri,
-            authorName: pAuthorName,
-            authorInstitution: pAuthorInstitution
+            coAuthorUri: pAuthorUri,
+            coAuthorName: pAuthorName,
+            coAuthorInstitution: pAuthorInstitution
         });
     }
 
+    changeAuthor2(pAuthorUri, pAuthorName, pAuthorInstitution){
+        this.setState({
+            citationAuthorUri: pAuthorUri,
+            citationAuthorName: pAuthorName,
+            citationAuthorInstitution: pAuthorInstitution
+        });
+    }
+
+    componentDidMount(){
+        let pCitationData = [];
+        let pCoAuthoryData = [];
+        fetch('/query/citationGraph', {
+            method: 'GET',
+          }).then((response) => {
+            return response.json();
+          }).then((json) => {
+              pCitationData = json
+          })
+          .then(()=>{
+              fetch('/query/coauthoryGraph', {
+                  method: 'GET',
+              }).then((response) =>{
+                  return response.json();
+              }).then((json)=>{
+                  pCoAuthoryData = json
+                  this.setState({
+                      citationData: pCitationData,
+                      coauthoryData: pCoAuthoryData
+                  });
+              });
+          })
+          .catch((error) => console.log(error));
+    }
+
     render() {
-        console.log(this.props)
+        console.log(this.state);
         return (
             <div className ="container-fluid">
                 <div className = "row">
@@ -33,10 +74,10 @@ class Viz extends Component {
                 </div>
                 <div className = "row">
                     <div className = "col-sm-8">
-                        <Graph changeAuthor={this.changeAuthor} svgId="coauthory"/>
+                        <Graph changeAuthor={this.changeAuthor} svgId="coauthory" data={this.state.coauthoryData}/>
                     </div>
                     <div className="col-sm-4">
-                        <VizDetail authorUri={this.state.authorUri} authorName={this.state.authorName} authorInstitution={this.state.authorInstitution}/>
+                        <VizDetail authorUri={this.state.coAuthorUri} authorName={this.state.coAuthorName} authorInstitution={this.state.coAuthorInstitution}/>
                     </div>
                 </div>
                 <div className="row">
@@ -46,10 +87,10 @@ class Viz extends Component {
                 </div>
                 <div className="row">
                     <div className = "col-sm-8">
-                        <Graph svgId="citation"/>
+                        <Graph svgId="citation" changeAuthor={this.changeAuthor2} data={this.state.citationData}/>
                     </div>
                     <div className="col-sm-4">
-                        <VizDetail authorUri={this.state.authorUri} authorName={this.state.authorName} authorInstitution={this.state.authorInstitution}/>
+                        <VizDetail authorUri={this.state.citationAuthorUri} authorName={this.state.citationAuthorName} authorInstitution={this.state.citationAuthorInstitution}/>
                     </div>
                 </div>
             </div>

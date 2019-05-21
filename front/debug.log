@@ -1,0 +1,2 @@
+[0520/184740.388:ERROR:process_memory_win.cc(73)] ReadMemory at 0x2406aceff80 of 512 bytes failed: Solo se completó una parte de una solicitud ReadProcessMemory o WriteProcessMemory. (0x12B)
+[0520/184740.388:ERROR:process_memory_win.cc(73)] ReadMemory at 0x2406acfff80 of 512 bytes failed: Solo se completó una parte de una solicitud ReadProcessMemory o WriteProcessMemory. (0x12B)

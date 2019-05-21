@@ -83,7 +83,7 @@ class App extends Component {
       <h2>{this.state.location}</h2>
       <br/>
       <br/>
-      <div className="container">
+      <div className="container-fluid">
 
 
         {pantalla}

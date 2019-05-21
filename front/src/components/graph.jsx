@@ -6,24 +6,22 @@ class Graph extends Component {
         super(props);
     }
 
-    componentDidMount(){
-        const data = {
-            "nodes": [
-              {"id": "Author1", "name":"JRR Tolkien", "institution": "Tolkien School"},
-              {"id": "Author2", "name": "JK Rowling", "institution": "Hogwarts"},
-              {"id": "Author3", "name": "E. Hemingway", "institution": "Escuela de la Vida"},
-              {"id": "Author4", "name": "Olga", "institution": "Universidad de Los Andes"},
-              
-            ],
-            "links": [
-              {"source": "Author1", "target": "Author2"},
-              {"source": "Author3", "target": "Author1"},
-              {"source": "Author4", "target": "Author1"},
-              {"source": "Author2", "target": "Author4"},
-              {"source": "Author1", "target": "Author4"}
-            ]
-          }
-        
+    shouldComponentUpdate(nextProps, nextState){
+        if(this.props.data.length === 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    componentDidUpdate(){
+        const data = this.props.data;
+        console.log(data);
+        if(data.length === 0){
+            return;
+        }
+        d3.select("#" + this.props.svgId).empty();
         const width = 500;
         const height = 300;
         const links = data.links.map(d => Object.create(d));
