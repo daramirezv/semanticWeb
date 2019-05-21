@@ -9,6 +9,7 @@ import Viz from './components/viz'
 import InstanciaDetail from './components/InstanciaDetail';
 import ClaseDetail from './components/ClaseDetail';
 import PropiedadDetail from './components/PropiedadDetail';
+import BusquedaLibre from './components/BusquedaLibre';
 
 class App extends Component {
 
@@ -70,6 +71,8 @@ class App extends Component {
     pantalla = <PropiedadDetail onChange={this.handleInstanciaClick} propiedad={this.state.propiedad}/>
   } else if(this.state.location === 'Viz'){
     pantalla = <Viz/>
+  } else if(this.state.location === 'BusquedaLibre'){
+    pantalla = <BusquedaLibre/>
   }
 
   return (

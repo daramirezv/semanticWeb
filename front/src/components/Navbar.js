@@ -25,6 +25,7 @@ export default class Navbar extends Component {
           <a className='nav-item nav-link ' onClick={this.state.onChange.bind(this, 'Clases')} href={'#clases'}>Clases</a>
           <a className='nav-item nav-link ' onClick={this.state.onChange.bind(this, 'Propiedades')} href={'#propiedades'}>Propiedades</a>
           <a className='nav-item nav-link' onClick={this.state.onChange.bind(this, 'Viz')} href={'#viz'}>Graphs</a>
+          <a className='nav-item nav-link' onClick={this.state.onChange.bind(this, 'BusquedaLibre')} href={'#busquedalibre'}>BusquedaLibre</a>
         </nav>
       
       </div>

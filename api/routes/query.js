@@ -305,5 +305,250 @@ router.get('/coauthoryGraph', (req, res, next)=>{
 });
 
 
-
+//ARTICULO DAVID
+router.get('/davidArticulo/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix :<http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?title ?volume ?url ?number ?year ?authors ?city ?country ?conference ?topic ?publisher where { ?resource rdf:type :Article . ?resource :title ?title . FILTER contains(?title,"'+ req.params.palabra +'") OPTIONAL { ?resource :volume ?volume } OPTIONAL { ?resource :url ?url } OPTIONAL { ?resource :number ?number } OPTIONAL { ?resource :year ?year } OPTIONAL { ?resource :writtenBy ?authors } OPTIONAL { ?resource :publishedInCity ?city } OPTIONAL { ?resource :publishedInCountry ?country } OPTIONAL { ?resource :presentedIn ?conference } OPTIONAL { ?resource :hasTopic ?topic } OPTIONAL { ?resource :publishedBy ?publisher }} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  console.log("llega")
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  //AUTORES DAVID
+  router.get('/davidAutor/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix :<http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> select distinct ?resource ?coautor ?nombre where { ?resource rdf:type :Author . filter contains(str(?resource),"'+ req.params.palabra +'") optional { ?resource :fullName ?nombre } optional { ?resource :coauthorWith ?coautor }} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  
+  //CIUDAD DAVID
+  router.get('/davidCiudad/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?pais ?nombre where { ?resource rdf:type :City . FILTER contains(?nombre,"'+ req.params.palabra +'") OPTIONAL { ?resource :cityName ?nombre } OPTIONAL { ?resource :locatedIn ?pais }} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  //DAVID INSTITUCION
+  router.get('/davidInstitucion/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?nombre where { ?resource rdf:type :Institution . FILTER contains(?nombre,"'+ req.params.palabra +'") OPTIONAL { ?resource :publisherName ?nombre }} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  //JOURNALS DAVID
+  router.get('/davidJournal/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?nombre where { ?resource rdf:type :Journal . FILTER contains(?nombre,"'+ req.params.palabra +'") OPTIONAL { ?resource :publisherName ?nombre }} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  
+  //DAVID PAISES
+  router.get('/davidPais/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?nombre where { ?resource rdf:type :Country . FILTER contains(?nombre,"'+ req.params.palabra +'") OPTIONAL { ?resource :countryName ?nombre }} LIMIT 50'
+  
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  //PUBLISHER DAVID
+  router.get('/davidPublisher/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix :<http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource ?nombre where { ?resource rdf:type :Publisher . FILTER contains(?nombre,"'+ req.params.palabra +'") OPTIONAL { ?resource :publisherName ?nombre }} LIMIT 50'
+  
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
+  
+  //TOPIC DAVID
+  router.get('/davidTopico/:palabra', (req, res, next) => {
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
+  let temp = 'prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> prefix :<http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?resource where { ?resource rdf:type :Topic. FILTER contains(str(?resource),"'+ req.params.palabra +'")} LIMIT 50'
+  let consultaBuena = encodeURIComponent(temp);
+  let finalUrl2 = url + consultaBuena;
+    fetch(finalUrl2, {
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+  
+    }).then((response) => {
+      console.log('Respuestaaaaaaaaaaaaaa');
+      //console.log(response);
+      
+      return response.json();
+    
+    }).then((json) => {
+      console.log('Jsoooooooooooooooooon');
+      console.log(json);
+      
+      res.status(200).json(json);
+  
+    })
+      .catch((error) => console.log(error));
+  
+  });
+  
 module.exports = router;
