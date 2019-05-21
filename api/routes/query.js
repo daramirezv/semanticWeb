@@ -196,6 +196,113 @@ router.get('/infoInstancia/:idInstancia', (req, res, next) => {
 
 });
 
+router.get('/citationGraph', (req, res, next)=>{
+
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query=';
+  let dict = {};
+
+  let consulta = 'PREFIX%20%3A%20%3Chttp%3A%2F%2Fwww.grupo7.semanticweb.uniandes.edu.co%2Fcurso%2Farticles%2F%3E%20select%20distinct%20%3Fsource%20%3Ftarget%20%3FsourceName%20%3FtargetName%20%3FinstitutionSourceName%20%3FinstitutionTargetName%20where%20%7B%20%20%3Fsource%20%3AreferenceToAuthor%20%3Ftarget%20.%20%3Fsource%20%3AaffiliatedTo%20%3FinstitutionSource%20.%3Ftarget%20%3AaffiliatedTo%20%3FinstitutionTarget%20.%20%3FinstitutionSource%20%3ApublisherName%20%3FinstitutionSourceName%20.%20%3FinstitutionTarget%20%3ApublisherName%20%3FinstitutionTargetName%20.%20%3Fsource%20%3AfullName%20%3FsourceName%20.%20%3Ftarget%20%3AfullName%20%3FtargetName%20%7D%20LIMIT%20100';
+  let urlCompleta = url + consulta;
+  let nodes = [];
+  let links = [];
+  fetch(urlCompleta, {
+    method: 'GET',
+    headers:{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+  }).then((response)=>{
+    return response.json();
+  }).then((json)=>{
+    let queryResults = json.results.bindings;
+    let link;
+    let node;
+    for(let i = 0; i < queryResults.length; i++){
+      link = {
+        "source": queryResults[i].source.value,
+        "target": queryResults[i].target.value
+      }
+      links.push(link);
+      if(dict[queryResults[i].source.value] === undefined){
+        node = {
+          "id": queryResults[i].source.value,
+          "name": queryResults[i].sourceName.value,
+          "institution": queryResults[i].institutionSourceName.value
+        }
+        nodes.push(node);
+        dict[queryResults[i].source.value] = queryResults[i].sourceName.value;
+      }
+      if(dict[queryResults[i].target.value] === undefined){
+        node = {
+          "id": queryResults[i].target.value,
+          "name": queryResults[i].targetName.value,
+          "institution": queryResults[i].institutionTargetName.value
+        }
+        nodes.push(node);
+        dict[queryResults[i].target.value] = queryResults[i].targetName.value;
+      }
+    }
+    let data = {
+      "nodes": nodes,
+      "links": links
+    }
+    res.status(200).json(data);
+  });
+});
+
+router.get('/coauthoryGraph', (req, res, next)=>{
+  let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query=';
+  let dict = {};
+
+  let consulta = 'PREFIX%20%3A%20%3Chttp%3A%2F%2Fwww.grupo7.semanticweb.uniandes.edu.co%2Fcurso%2Farticles%2F%3E%20select%20distinct%20%3Fsource%20%3Ftarget%20%3FsourceName%20%3FtargetName%20%3FinstitutionSourceName%20%3FinstitutionTargetName%20where%20%7B%20%20%3Fsource%20%3AcoauthorWith%20%3Ftarget%20.%20%3Fsource%20%3AaffiliatedTo%20%3FinstitutionSource%20.%20%3Ftarget%20%3AaffiliatedTo%20%3FinstitutionTarget%20.%20%3FinstitutionSource%20%3ApublisherName%20%3FinstitutionSourceName%20.%20%3FinstitutionTarget%20%3ApublisherName%20%3FinstitutionTargetName%20.%20%3Fsource%20%3AfullName%20%3FsourceName%20.%20%3Ftarget%20%3AfullName%20%3FtargetName%7D%20LIMIT%20100';
+  let urlCompleta = url + consulta;
+  let nodes = [];
+  let links = [];
+
+  fetch(urlCompleta,{
+    method: 'GET',
+    headers:{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+  }).then((response)=>{
+    return response.json();
+  }).then((json)=>{
+    let queryResults = json.results.bindings;
+    let link;
+    let node;
+    for(let i = 0; i < queryResults.length; i++){
+      link = {
+        "source": queryResults[i].source.value,
+        "target": queryResults[i].target.value
+      }
+      links.push(link);
+      if(dict[queryResults[i].source.value] === undefined){
+        node = {
+          "id": queryResults[i].source.value,
+          "name": queryResults[i].sourceName.value,
+          "institution": queryResults[i].institutionSourceName.value
+        }
+        nodes.push(node);
+        dict[queryResults[i].source.value] = queryResults[i].sourceName.value;
+      }
+      if(dict[queryResults[i].target.value] === undefined){
+        node = {
+          "id": queryResults[i].target.value,
+          "name": queryResults[i].targetName.value,
+          "institution": queryResults[i].institutionTargetName.value
+        }
+        nodes.push(node);
+        dict[queryResults[i].target.value] = queryResults[i].targetName.value;
+      }
+    }
+    let data = {
+      "nodes": nodes,
+      "links": links
+    }
+    res.status(200).json(data);
+  })
+});
 
 
 
