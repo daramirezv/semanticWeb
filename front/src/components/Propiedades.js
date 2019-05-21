@@ -6,6 +6,7 @@ export default class Propiedades extends Component {
 
     this.state = {
       propiedades: [],
+      propiedadBuscada: '',
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,9 +21,17 @@ export default class Propiedades extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let uriEntidad = this.state.instanciaBuscada;
-    console.log(uriEntidad);
-    alert('Buscar ' + uriEntidad);
+    let uriPropiedad= this.state.propiedadBuscada;
+    console.log(uriPropiedad);
+    
+    let propiedadesDisponibles = this.state.propiedades.map((obj) => obj.propiedad.value);
+    console.log(propiedadesDisponibles);
+    if(propiedadesDisponibles.includes(uriPropiedad)){
+      this.props.onChange(uriPropiedad);
+    } else {
+      alert('No hay ninguna propiedad con este URI.');
+    }
+
   }
 
   componentDidMount() {
@@ -61,7 +70,7 @@ export default class Propiedades extends Component {
         <div className="searchDiv">
           <form id="buscadorPropiedades" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" id="inputBuscadorPropiedades" placeholder="Buscar Propiedad" onChange={this.handleSearchChange}/>
+              <input type="text" size="100" id="inputBuscadorPropiedades" placeholder="Buscar Propiedad" onChange={this.handleSearchChange}/>
               <button type="submit" className="btn btn-primary">Buscar</button>
             </div>
           </form>

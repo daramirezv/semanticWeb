@@ -8,7 +8,7 @@ router.get('/clases', (req, res, next) => {
 
   let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
 
-  let consultaBuena = 'prefix%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%20prefix%20%3A%20%3Chttp%3A%2F%2Fwww.grupo7.semanticweb.uniandes.edu.co%2Fcurso%2Farticles%2F%3E%20select%20distinct%20%3Fclase%20where%20%7B%20%3Finstancia%20rdf%3Atype%20%3Fclase.%20filter%28%20strstarts%28str%28%3Fclase%29%2Cstr%28%3A%29%29%20%29%20%20%7D';
+  let consultaBuena = 'prefix%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%20prefix%20%3A%20%3Chttp%3A%2F%2Fwww.grupo7.semanticweb.uniandes.edu.co%2Fcurso%2Farticles%2F%3E%20select%20distinct%20%3Fclase%20where%20%7B%20%3Finstancia%20rdf%3Atype%20%3Fclase.%20filter%28%20strstarts%28str%28%3Fclase%29%2Cstr%28%3A%29%29%20%29%20%20%7D%20limit%2010000';
 
   
 
@@ -49,7 +49,7 @@ router.get('/instanciasClase/:idClase', (req, res, next) => {
 
   let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
 
-  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT ?instancia WHERE{ ?instancia rdf:type <' + uriClaseDecoded + '>. }';
+  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT ?instancia WHERE{ ?instancia rdf:type <' + uriClaseDecoded + '>. } LIMIT 10000';
 
   let consultaEncoded = encodeURIComponent(consulta);
 
@@ -86,7 +86,7 @@ router.get('/propiedades', (req, res, next) => {
 
   let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
 
-  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?propiedad WHERE{ ?instancia ?propiedad ?objeto. FILTER( STRSTARTS(STR(?propiedad),str(:)) ) }	';
+  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?propiedad WHERE{ ?instancia ?propiedad ?objeto. FILTER( STRSTARTS(STR(?propiedad),str(:)) ) }	LIMIT 10000';
   let consultaEncoded = encodeURIComponent(consulta);
 
   let finalUrl = url + consultaEncoded;
@@ -125,7 +125,7 @@ router.get('/instanciasPropiedad/:idPropiedad', (req, res, next) => {
 
   let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
 
-  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?sujeto WHERE{ ?sujeto <' + uriPropiedadDecoded + '> ?objeto. }';
+  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT DISTINCT ?sujeto WHERE{ ?sujeto <' + uriPropiedadDecoded + '> ?objeto. } LIMIT 10000';
 
   let consultaEncoded = encodeURIComponent(consulta);
 
@@ -165,7 +165,7 @@ router.get('/infoInstancia/:idInstancia', (req, res, next) => {
 
   let url = 'http://172.24.101.58:8080/repositories/grupo07repo?query= ';
 
-  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT * WHERE{ <' + uriInstanciaDecoded + '> ?propiedad ?objeto. }';
+  let consulta = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX : <http://www.grupo7.semanticweb.uniandes.edu.co/curso/articles/> SELECT * WHERE{ <' + uriInstanciaDecoded + '> ?propiedad ?objeto. } LIMIT 10000';
 
   let consultaEncoded = encodeURIComponent(consulta);
 

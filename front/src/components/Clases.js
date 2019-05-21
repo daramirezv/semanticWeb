@@ -23,7 +23,14 @@ export default class Clases extends Component {
     e.preventDefault();
     let uriClase = this.state.claseBuscada;
     console.log(uriClase);
-    alert('Buscar ' + uriClase);
+    
+    let clasesDisponibles = this.state.clases.map((obj) => obj.clase.value);
+    console.log(clasesDisponibles);
+    if(clasesDisponibles.includes(uriClase)){
+      this.props.onChange(uriClase);
+    } else {
+      alert('No hay ninguna clase con este URI.');
+    }
   }
 
   componentDidMount() {
@@ -68,7 +75,7 @@ export default class Clases extends Component {
         <div className="searchDiv">
           <form id="buscadorClases" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" id="inputBuscadorClases" placeholder="Buscar Clase" onChange={this.handleSearchChange}/>
+              <input type="text" size="100" id="inputBuscadorClases" placeholder="Buscar Clase" onChange={this.handleSearchChange}/>
               <button type="submit" className="btn btn-primary">Buscar</button>
             </div>
           </form>
